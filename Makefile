@@ -49,15 +49,15 @@ $(ODIR)/%.o: %.c
 
 $(ODIR)/%.o: %.s
 	@echo " + Compiling '$(notdir $<')"
-	@armasm $(ASMFLAGS) -o $@ $<
+	armasm $(ASMFLAGS) -o $@ $<
 
 silverware.hex: silverware.axf
-	@fromelf $< --i32combined --output $@
+	fromelf $< --i32combined --output $@
 
 silverware.axf: $(OBJS)
-	@armlink $(LDFLAGS) $(OBJS) -o $@   
+	armlink $(LDFLAGS) $(OBJS) -o $@
 
 clean:
-	@rm -Rf $(ODIR) silverware.axf silverware.hex
+	rm -Rf $(ODIR) silverware.axf silverware.hex
 
 -include $(OBJS:.o=.dep)
