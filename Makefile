@@ -7,8 +7,6 @@ SRC_C = $(wildcard $(SDIR)/Silverware/src/*.c) \
 SRC_CXX = $(wildcard $(SDIR)/Silverware/src/*.cpp)
 SRC_S = $(SDIR)/Libraries/CMSIS/Device/ST/STM32F0xx/Source/Templates/arm/startup_stm32f031.s
 
-HARDWARE_CONFIG = $(wildcard $(SDIR)/Silverware/src/*.h)
-
 CFLAGS := -I$(DIR)/Silverware/src -I$(SDIR)/Libraries/CMSIS/Device/ST/STM32F0xx/Include -I $(SDIR)/Libraries/CMSIS/Include -I $(SDIR)/Utilities -I $(SDIR)/Libraries/STM32F0xx_StdPeriph_Driver/inc
 
 CPU = --cpu Cortex-M0
@@ -41,13 +39,13 @@ $(OBJS): | $(ODIR)
 $(ODIR):
 	@mkdir -p $@
 
-$(ODIR)/%.o: %.cpp $(HARDWARE_CONFIG)
+$(ODIR)/%.o: %.cpp
 	@echo " + Compiling '$(notdir $<)'"
-	@armcc --cpp $(CFLAGS) -c -o $@ $<
+	armcc --cpp $(CFLAGS) --depend=$(@:.o=.dep) -c -o $@ $<
 
-$(ODIR)/%.o: %.c $(HARDWARE_CONFIG)
+$(ODIR)/%.o: %.c
 	@echo " + Compiling '$(notdir $<)'"
-	@armcc --c99 $(CFLAGS) -c -o $@ $<
+	armcc --c99 $(CFLAGS) --depend=$(@:.o=.dep) -c -o $@ $<
 
 $(ODIR)/%.o: %.s
 	@echo " + Compiling '$(notdir $<')"
@@ -61,3 +59,5 @@ silverware.axf: $(OBJS)
 
 clean:
 	@rm -Rf $(ODIR) silverware.axf silverware.hex
+
+-include $(OBJS:.o=.dep)
