@@ -7,6 +7,9 @@
 
 #ifdef SOFTSPI_4WIRE
 
+#define gpioset( port , pin) port->BSRR = pin
+#define gpioreset( port , pin) port->BRR = pin
+
 void spi_init(void)
 {    
 	// spi port inits
@@ -28,14 +31,18 @@ void spi_init(void)
 	GPIO_Init(SPI_SS_PORT, &GPIO_InitStructure);
 	
 	//miso should be input by default
+#ifdef SPI_CE_PIN
+	GPIO_InitStructure.GPIO_Pin = SPI_CE_PIN;
+	GPIO_Init(SPI_CE_PORT, &GPIO_InitStructure);
+	// Set CE as 1
+	gpioset(SPI_CE_PORT, SPI_CE_PIN);
+#endif
 	
 	spi_csoff();
 
 }
 
 
-#define gpioset( port , pin) port->BSRR = pin
-#define gpioreset( port , pin) port->BRR = pin
 
 #define MOSIHIGH gpioset( SPI_MOSI_PORT, SPI_MOSI_PIN)
 #define MOSILOW gpioreset( SPI_MOSI_PORT, SPI_MOSI_PIN);
