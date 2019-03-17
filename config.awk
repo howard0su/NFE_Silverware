@@ -3,7 +3,8 @@
 #
 function pinport(input)
 {
-	if (substr(input, 0, 1) != "P") {
+	gsub(/[ \t]+$/, "", input)
+	if (substr(input, 1, 1) != "P") {
 		printf("invalid pinname: %s\n", input)
 		exit(-1)
 	}
@@ -16,7 +17,8 @@ function pinport(input)
 #
 function pinname(input)
 {
-	if (substr(input, 0, 1) != "P") {
+	gsub(/[ \t]+$/, "", input)
+	if (substr(input, 1, 1) != "P") {
 		printf("invalid pinname: %s\n", input)
 		exit(-1)
 	}
@@ -71,7 +73,7 @@ function parse_led(indent, vname, value)
 	{
 		ledname = "LED" vname[2];
 		input = value;
-		if (substr(value, 0, 1) == "~") {
+		if (substr(value, 1, 1) == "~") {
 			output_define(ledname "_INVERT");
 			input = substr(value, 2);
 		}
