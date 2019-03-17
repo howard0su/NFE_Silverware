@@ -1,6 +1,7 @@
 global:
   debug: off
   rxdebug: off
+  vreg: PB1
 
 gyro:
   id: 

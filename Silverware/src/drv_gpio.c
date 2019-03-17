@@ -17,9 +17,9 @@ void gpio_init(void)
 	
 	
 #ifdef ENABLE_VREG_PIN	
-	GPIO_InitStructure.GPIO_Pin = VREG_PIN_1;	
-  GPIO_Init(VREG_PORT_1, &GPIO_InitStructure); 
-	GPIO_SetBits( VREG_PORT_1, VREG_PIN_1);
+	GPIO_InitStructure.GPIO_Pin = VREG_PIN;
+	GPIO_Init(VREG_PORT, &GPIO_InitStructure);
+	GPIO_SetBits( VREG_PORT, VREG_PIN);
 #endif
 
 	

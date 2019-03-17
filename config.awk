@@ -160,6 +160,9 @@ function parse_global(indent, vname, value)
 		if (value == "on") output_define("DEBUG")
 	} else if (key == "rxdebug") {
 		if (value == "on") output_define("RXDEBUG")
+	} else if (key == "vreg") {
+		output_pinport("VREG_", value);
+		output_define("ENABLE_VREG_PIN");
 	}
 	else parse_unknow(indent, vname, value)
 }
