@@ -1,6 +1,8 @@
 output/
 Objects/
-
+obj/
+*.axf
+*.hex
 *.dep
 *.bak
 
