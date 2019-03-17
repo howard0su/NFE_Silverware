@@ -39,6 +39,10 @@ THE SOFTWARE.
 #endif
 #endif
 
+#ifdef USE_SOFTWARE_I2C
+#define SOFTI2C_GYRO_ADDRESS I2C_GYRO_ADDRESS
+#endif
+
 int liberror = 0;
 
 void i2c_init( void)

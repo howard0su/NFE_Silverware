@@ -1,0 +1,38 @@
+global:
+  debug: on
+  rxdebug: on
+
+gyro:
+  id: 
+    - 0x68
+    - 0x78
+    - 0x7d
+    - 0x72
+  rotate: 90_CCW
+  sda: PA10
+  scl: PA9
+  address: 0x68
+
+radio:
+  model: XN297L
+  mosi: PA1
+  clk: PA2
+  ss: PA3
+  check: on
+
+battery:
+  input: PA5
+  channel: 5
+  r1: 1000
+  r2: 2000
+  ref: 3.3
+
+motor:
+  back_left: PA7
+  back_right: PA4
+  front_left: PB1
+  front_right: PA6
+
+led:
+  ports: 
+    - PF0

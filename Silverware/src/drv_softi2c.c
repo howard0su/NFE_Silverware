@@ -29,6 +29,10 @@ THE SOFTWARE.
 #include "drv_softi2c.h"
 #include "defines.h"
 
+#define SOFTI2C_SDAPORT I2C_SDAPORT
+#define SOFTI2C_SCLPORT I2C_SCLPORT
+#define SOFTI2C_SDAPIN  I2C_SDAPIN
+#define SOFTI2C_SCLPIN  I2C_SCLPIN
 
 //#define i2cdebug
 

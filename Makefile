@@ -44,10 +44,11 @@ endif
 
 INCLUDES = -I$(SDIR)/Silverware/src -I$(SDIR)/Libraries/CMSIS/Device/ST/STM32F0xx/Include -I $(SDIR)/Libraries/CMSIS/Include -I $(SDIR)/Utilities -I $(SDIR)/Libraries/STM32F0xx_StdPeriph_Driver/inc
 
+INCLUDES += -I$(ODIR)
 CPU = cortex-m0
 
 SRCS     = $(SRC_C) $(SRC_CXX) $(SRC_S)
-ODIR     = $(SDIR)/obj
+ODIR     = $(SDIR)/obj/$(MAKECMDGOALS)
 
 OBJS 	 = $(addprefix $(ODIR)/, $(notdir $(SRC_C:.c=.o) $(SRC_S:.s=.o) $(SRC_CXX:.cpp=.o)))
 VPATH 	 = $(dir $(SRCS))
@@ -79,8 +80,18 @@ ASMFLAGS := -mcpu=$(CPU)
 DEPENDS  := -MD -MP -MF 
 endif
 
+TARGETS = $(basename $(notdir $(wildcard $(SDIR)/Silverware/src/models/*.yml)))
+
 .PHONY: default all
-default: silverware.hex
+default:
+	echo Choose target from $(TARGETS)
+all:
+	echo Choose target from $(TARGETS)
+
+define make-target
+$1: $1.hex $1.axf
+endef
+$(foreach t,$(TARGETS),$(eval $(call make-target,$t)))
 
 $(VERBOSE).SILENT:
 
@@ -89,32 +100,36 @@ $(OBJS): | $(ODIR)
 $(ODIR):
 	@mkdir -p $@
 
-$(ODIR)/%.o: %.cpp
+$(ODIR)/targets.h: $(ODIR) $(SDIR)/build_config.sh $(SDIR)/config.awk $(SDIR)/Silverware/src/models/$(MAKECMDGOALS).yml
+	sh $(SDIR)/build_config.sh < $(SDIR)/Silverware/src/models/$(MAKECMDGOALS).yml > $@
+
+$(ODIR)/%.o: %.cpp $(ODIR)/targets.h
 	@echo " + Compiling '$(notdir $<)'"
 	$(CXX) $(CFLAGS) $(DEPENDS)$(@:.o=.dep) -c -o $@ $<
 
-$(ODIR)/%.o: %.c
+$(ODIR)/%.o: %.c $(ODIR)/targets.h
 	@echo " + Compiling '$(notdir $<)'"
 	$(CC) $(CFLAGS) $(DEPENDS)$(@:.o=.dep) -c -o $@ $<
 
-$(ODIR)/%.o: %.s
+$(ODIR)/%.o: %.s $(ODIR)/targets.h
 	@echo " + Compiling '$(notdir $<')"
 	$(ASM) $(ASMFLAGS) -o $@ $<
 
-silverware.hex: silverware.axf
+%.hex: %.axf
 ifdef USE_GCC
 	$(OBJCOPY) -O ihex $< $@
 else
 	fromelf $< --i32combined --output $@
 endif
 
-silverware.axf: $(OBJS)
+%.axf: $(OBJS)
+	@echo " + Compiling '$(notdir $@')"
 	$(LD) $(LDFLAGS) $(OBJS) -o $@
 ifdef USE_GCC
 	$(SIZE) $@
 endif
 
 clean:
-	rm -Rf $(ODIR) silverware.axf silverware.hex
+	rm -Rf $(ODIR) $(addsuffix .hex, $(TARGETS)) $(addsuffix .axf, $(TARGETS))
 
 -include $(OBJS:.o=.dep)

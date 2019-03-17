@@ -3,21 +3,6 @@
 //Universal pids are already loaded for 6mm and 7mm whoops by default.  Adjust pids in pid.c file for any non whoop builds.  
 
 //**********************************************************************************************************************
-//***********************************************HARDWARE SELECTION*****************************************************
-
-// *************DEFINE FLIGHT CONTROLLER HARDWARE
-// *************SELECT ONLY ONE 
-// *************uncomment BWHOOP define for bwhoop, bwhoop pro, E011C Santa Edition, and Beta FPV Lite Flight Controllers
-// *************uncomment E011 define for E011 flight Controller
-// *************uncomment H8mini_blue_board for the H8 mini flight controller with blue circuit board
-//#define BWHOOP
-//#define E011
-//#define H8mini_blue_board
-#define Alienwhoop_ZERO  
-
-
-
-//**********************************************************************************************************************
 //***********************************************RATES & EXPO SETTINGS**************************************************
 
 // *************Select your preffered rate calculation format (define only one)
@@ -73,13 +58,13 @@
 
 // *************Radio protocol selection
 // *************select only one
-#define RX_SBUS
+//#define RX_SBUS
 //#define RX_CRSF                                           //Requires tbs firmware v2.88 or newer for failsafe to operate properly
 //#define RX_DSMX_2048
 //#define RX_DSM2_1024
 //#define RX_NRF24_BAYANG_TELEMETRY
 //#define RX_BAYANG_PROTOCOL_BLE_BEACON
-//#define RX_BAYANG_PROTOCOL_TELEMETRY_AUTOBIND
+#define RX_BAYANG_PROTOCOL_TELEMETRY_AUTOBIND
 
 // *************Transmitter Type Selection
 //#define USE_STOCK_TX

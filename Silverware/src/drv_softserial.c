@@ -103,8 +103,13 @@ int softserial_read_byte(uint8_t* byte)
 }
 #define SET_LED1_ON LED1PORT->BSRR = LED1PIN
 #define SET_LED1_OFF LED1PORT->BRR = LED1PIN
+#if LED_NUMBER > 1
 #define SET_LED2_ON LED2PORT->BSRR = LED2PIN
 #define SET_LED2_OFF LED2PORT->BRR = LED2PIN
+#else
+#define SET_LED2_ON
+#define SET_LED2_OFF
+#endif
 
 void softserial_set_input(const SoftSerialData_t* data)
 {

@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "drv_time.h"
 #include "defines.h"
 
-#define HW_I2C_ADDRESS SOFTI2C_GYRO_ADDRESS 
+#define HW_I2C_ADDRESS I2C_GYRO_ADDRESS
 
 // pins for hw i2c , select one only
 // select pins PB6 and PB7
